@@ -1,11 +1,10 @@
-import React, { useState, useRef, DragEvent, ChangeEvent } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.css';
-
+import { useFileTree } from './hooks/useFileTree';
+import { useProcessing } from './hooks/useProcessing';
 import { TreeItem } from './components/TreeItem';
 import { ProcessingOverlay } from './components/ProcessingOverlay';
 import { Footer } from './components/Footer';
-import { useFileTree } from './hooks/useFileTree';
-import { useProcessing } from './hooks/useProcessing';
 
 function App() {
   const [isDragOver, setIsDragOver] = useState(false);
@@ -14,17 +13,20 @@ function App() {
   const { fileTree, addFile, addFolder, updateFolderFileCount, toggleFolder, removeFile } = useFileTree();
   const { processing, processFiles, markDownloaded, resetProcessing } = useProcessing();
 
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
+  const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(true);
   };
 
-  const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
+  const handleDragLeave = (e: React.DragEvent) => {
     e.preventDefault();
-    setIsDragOver(false);
+    // Only set drag over to false if we're leaving the entire app container
+    if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+      setIsDragOver(false);
+    }
   };
 
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
+  const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
     
@@ -98,9 +100,13 @@ function App() {
     }
   };
 
-  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || []);
     selectedFiles.forEach(file => addFile(file));
+    // Reset the input value so the same file can be selected again
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
   const handleGoClick = async () => {
@@ -108,13 +114,18 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div 
+      className="App"
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
       <div className="container">
         <h1 className="title">deodex.me</h1>
         <p className="subtitle">The drag-and-drop Android deodexer</p>
         <div className="local-processing-badge">
           <span className="badge-icon">🔒</span>
-          <span className="badge-text">All processing done locally - your files stay private</span>
+          <span className="badge-text">All processing done locally - your APKs stay private</span>
         </div>
         <div className="supported-files">
           <span className="supported-label">Supported:</span>
@@ -127,9 +138,6 @@ function App() {
         
         <div 
           className={`drop-zone ${isDragOver ? 'drag-over' : ''}`}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
         >
           <div className="drop-zone-content">
