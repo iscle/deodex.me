@@ -27,12 +27,121 @@
   color: #ffffff;
   font-size: 2.5rem;
   font-weight: 700;
-  margin: 0 0 30px 0;
+  margin: 0 0 24px 0;
   background: linear-gradient(135deg, #64ffda 0%, #00d4ff 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow: 0 0 30px rgba(100, 255, 218, 0.3);
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin: 0 0 24px 0;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.supported-files {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 0 24px 0;
+  flex-wrap: wrap;
+}
+
+.supported-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.file-type {
+  background: rgba(100, 255, 218, 0.15);
+  border: 1px solid rgba(100, 255, 218, 0.4);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64ffda;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  letter-spacing: 0.5px;
+  position: relative;
+  cursor: default;
+}
+
+.file-type.coming-soon {
+  background: rgba(244, 67, 54, 0.15);
+  border: 1px solid rgba(244, 67, 54, 0.4);
+  color: #f44336;
+  opacity: 0.7;
+  text-decoration: line-through;
+}
+
+.file-type.coming-soon:hover {
+  opacity: 1;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1000;
+  margin-bottom: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.9);
+}
+
+.file-type.coming-soon:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.local-processing-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(100, 255, 218, 0.1);
+  border: 1px solid rgba(100, 255, 218, 0.3);
+  border-radius: 20px;
+  padding: 8px 16px;
+  margin: 0 0 32px 0;
+  font-size: 0.9rem;
+  color: #64ffda;
+  font-weight: 500;
+}
+
+.badge-icon {
+  font-size: 1rem;
+}
+
+.badge-text {
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
 }
 
 .drop-zone {
@@ -43,7 +152,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   background: rgba(255, 255, 255, 0.02);
-  margin-bottom: 30px;
+  margin-bottom: 32px;
   min-height: 120px;
   display: flex;
   align-items: center;
@@ -93,7 +202,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   padding: 30px;
-  margin-top: 20px;
+  margin-top: 24px;
   backdrop-filter: blur(10px);
 }
 
@@ -101,7 +210,7 @@
   color: #ffffff;
   font-size: 1.3rem;
   font-weight: 600;
-  margin: 0 0 20px 0;
+  margin: 0 0 24px 0;
   text-align: left;
 }
 
